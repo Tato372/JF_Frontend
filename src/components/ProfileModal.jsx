@@ -1,5 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+// src/components/ProfileModal.jsx (¡CORREGIDO!)
+
+import { useState, useEffect, useRef, useContext } from "react"; // 1. IMPORTAR useContext
 import { X } from "lucide-react";
+import { AuthContext } from "../contexts/AuthContexts"; // 2. IMPORTAR TU CONTEXTO
 
 export default function ProfileModal({ isOpen, onClose, email, darkMode, onUpdateImage }) {
   const [userImage, setUserImage] = useState(() => {
@@ -7,6 +10,9 @@ export default function ProfileModal({ isOpen, onClose, email, darkMode, onUpdat
   });
   const username = email?.split("@")[0] || "";
   const fileInputRef = useRef();
+
+  // 3. OBTENER LA FUNCIÓN DE LOGOUT DEL CONTEXTO
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     const savedImage = localStorage.getItem("userImage");
@@ -29,8 +35,10 @@ export default function ProfileModal({ isOpen, onClose, email, darkMode, onUpdat
     fileInputRef.current.click();
   };
 
+  // 4. USAR LA FUNCIÓN DE LOGOUT DEL CONTEXTO
   const handleLogout = () => {
-    window.location.href = "/.auth/logout";
+    logout(); // <-- ¡Esta es la línea corregida!
+    onClose(); // (Opcional) Cierra el modal antes de recargar
   };
 
   if (!isOpen) return null;
@@ -43,7 +51,7 @@ export default function ProfileModal({ isOpen, onClose, email, darkMode, onUpdat
           <X className="w-5 h-5" />
         </button>
 
-        {/* Imagen y usuario */}
+        {/* ... (el resto de tu modal es idéntico) ... */}
         <div className="flex flex-col items-center mb-4">
           <div 
             className={`w-16 h-16 rounded-full flex items-center justify-center cursor-pointer ${userImage ? '' : darkMode ? "bg-gray-100 text-gray-900" : "bg-gray-400 text-white"}`}
