@@ -221,9 +221,6 @@ export default function App() {
         <Routes>
           {/* Ruta principal (Home) - Usaremos el 'activeTab' para el renderizado interno si quieres */}
           <Route path="/" element={<Home darkMode={darkMode} texts={currentTexts} />} />
-          
-          {/* RUTA DE CALLBACK - Usa el nuevo componente */}
-          <Route path="/auth-success" element={<AuthSuccess />} /> 
 
           {/* RUTA DE TIENDA */}
           <Route path="/store" element={<PrivateRoute><Shop darkMode={darkMode} texts={currentTexts} /></PrivateRoute>} />
